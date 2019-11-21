@@ -45,7 +45,7 @@ if (isset($_GET['logout'])) {
 			<link rel="stylesheet" href="css/main.css">
 		</head>
 		<body>	
-		  <<header id="header">
+		<header id="header">
 		    <div class="container main-menu">
 		    	<div class="row align-items-center justify-content-between d-flex">
 			      <div id="logo">
@@ -67,67 +67,81 @@ if (isset($_GET['logout'])) {
 		    	</div>
 		    </div>
 		  </header><!-- #header -->
-	  
-			<!-- Start contact-page Area -->
-			<section class="contact-page-area section-gap">
-				<div class="container">
-					<div class="row">
-						<!-- <div class="map-wrap" style="width:100%; height: 445px;" id="map"></div> -->
-						<div class="col-lg-4 d-flex flex-column address-wrap">
-							<div class="single-contact-address d-flex flex-row">
-								<div class="icon">
-									<span class="lnr lnr-home"></span>
-								</div>
-								<div class="contact-details">
-									<h5>Nyeri County, Central</h5>
-									<p>
-										657 - 10100
-									</p>
-								</div>
-							</div>
-							<div class="single-contact-address d-flex flex-row">
-								<div class="icon">
-									<span class="lnr lnr-phone-handset"></span>
-								</div>
-								<div class="contact-details">
-									<h5>(254) 718 222 000</h5>
-									<p>Mon to Fri 9am to 6 pm</p>
-								</div>
-							</div>
-							<div class="single-contact-address d-flex flex-row">
-								<div class="icon">
-									<span class="lnr lnr-envelope"></span>
-								</div>
-								<div class="contact-details">
-									<h5>redcross@yahoo.com</h5>
-									<p>Send us your query anytime!</p>
-								</div>
-							</div>														
-						</div>
-						<div class="col-lg-8">
-							<form class="form-area contact-form text-right" id="myForm" action="mail.php" method="post">
-								<div class="row">	
-									<div class="col-lg-6 form-group">
-										<input name="name" placeholder="Enter your name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your name'" class="common-input mb-20 form-control" required="" type="text">
-									
-										<input name="email" placeholder="Enter email address" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'" class="common-input mb-20 form-control" required="" type="email">
+		  	  
 
-										<input name="subject" placeholder="Enter subject" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter subject'" class="common-input mb-20 form-control" required="" type="text">
-									</div>
-									<div class="col-lg-6 form-group">
-										<textarea class="common-textarea form-control" name="message" placeholder="Enter Messege" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Messege'" required=""></textarea>				
-									</div>
-									<div class="col-lg-12">
-										<div class="alert-msg" style="text-align: left;"></div>
-										<button class="genric-btn primary" style="float: right;">Send Message</button>											
-									</div>
-								</div>
-							</form>	
+			<!-- Start services Area -->
+			<section class="services-area section-gap">
+				<div class="container">
+		            <div class="row d-flex justify-content-center">
+		                <div class="menu-content  col-lg-7">
+		                    <div class="title text-center">
+		                        <h1 class="mb-10">Red-Cross Charity Services</h1>
+		                        <p>There are other ways you can contribute to the red cross team through diverse charity acts. </p>
+		                    </div>
+		                </div>
+		            </div>						
+					<div class="row">
+						<div class="col-lg-4 col-md-6">
+							<div class="single-services">
+								<span class="lnr lnr-home"></span>
+								<a href="#"><h4>donation of Basic Needs</h4></a>
+								<p>
+									we do carry out food and clothing donations to the less fortunate inclusive of childrens homes. you can send this donations at various
+                                    pickup points across the country.
+								</p>
+							</div>
 						</div>
+						<div class="col-lg-4 col-md-6">
+							<div class="single-services">
+								<span class="lnr lnr-laptop-phone"></span>
+								<a href="emergencyreporting.php"><h4>Equipment</h4></a>
+								<p>
+								   we also collect  equipment donations which assist in carrying out the red cross mandate. the equipment may be donated 
+                                   or for use in other branches of redcross across the country.
+								</p>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-6">
+							<div class="single-services">
+								<span class="lnr lnr-camera"></span>
+								<a href="#"><h4>Funds</h4></a>
+								<p>
+									this can assist cater for the redcross expenses in carying out the good work.<br>
+                                    The official MPESA PayBill number: 848484 <br>
+
+								</p>
+							</div>	
+						</div>
+																	
 					</div>
 				</div>	
 			</section>
-			<!-- End contact-page Area -->
+			<!-- End services Area -->				
+
+			<!-- Start fact Area -->
+			<section class="facts-area section-gap" id="facts-area">
+				<div class="container">				
+					<div class="row">
+						<div class="col-lg-3 col-md-6 single-fact">
+							<h1 class="counter">450</h1>
+							<p>Projects Completed</p>
+						</div>
+						<div class="col-lg-3 col-md-6 single-fact">
+							<h1 class="counter">8270</h1>
+							<p>Red-cross members</p>
+						</div>
+						<div class="col-lg-3 col-md-6 single-fact">
+							<h1 class="counter">320</h1>
+							<p>Bood drive events</p>
+						</div>	
+						<div class="col-lg-3 col-md-6 single-fact">
+							<h1 class="counter">150</h1>
+							<p>partners & supporters</p>
+						</div>												
+					</div>
+				</div>	
+			</section>
+			<!-- end fact Area -->						
 
             <!-- start footer Area -->
             <footer class="footer-area section-gap">
@@ -180,7 +194,7 @@ if (isset($_GET['logout'])) {
                     </div>
                 </div>
             </footer>
-            <!-- End footer Area -->
+            <!-- End footer Area -->	
 
 			<script src="js/vendor/jquery-2.2.4.min.js"></script>
 			<script src="js/popper.min.js"></script>

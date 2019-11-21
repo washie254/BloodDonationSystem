@@ -55,10 +55,12 @@ if (isset($_GET['logout'])) {
 			      <nav id="nav-menu-container">
 			        <ul class="nav-menu">
 			          <li><a href="index.php">Home</a></li>
-			          <li><a href="about.php">Profile</a></li>
+					  <li><a href="bdonation.php">Blood Donation</a></li>
 			          <li><a href="services.php">Services</a></li>
+			          <li><a href="charity.php">Charity</a></li>
                       <li><a href="emergencyreporting.php">Report Em.</a></li>
 					  <li><a href="contact.php">Contact</a></li>
+			          <li><a href="about.php">Profile</a></li>
 					  <li> <a href="index.php?logout='1'" style="color: red;">logout</a> </li>
 					  <li><img src="img/user2.png" style="width:30px;height:30px;" alt="" title="" /><strong><?php echo $_SESSION['username']; ?></strong></li>
 			        </ul>
@@ -93,9 +95,40 @@ if (isset($_GET['logout'])) {
 				 $uname=$row[1];
 				}
 			?>
+			<!-- start banner Area -->
+			<!-- <section class="banner-area">
+				<div class="container">
+					<div class="row fullscreen align-items-center justify-content-between">
+						<div class="col-lg-6 col-md-6 banner-left">
+							<h1>Emergency Reporting</h1>
+							<p> 
+							<strong>Ajali </strong>haina kinga. Accidents ocassionally happen and without being attended to 
+							early enough, may cause severe injuries or even lead to death of the victim(s). In this section 
+							you will be able to report an emergency and our team will work on i. emergencies will be attended 
+							with regards to their severities and urgency.
+							</p>
+						</div>
+						<div class="col-lg-6 col-md-6 banner-right d-flex align-self-end">
+							<img class="img-fluid" src="img/accident.png" alt="">
+						</div>
+					</div>
+				</div>					
+			</section> -->
+			<!-- End banner Area -->
+
 			<!-- Start home-about Area -->
 			<section class="home-about-area section-gap">
 				<div class="container">
+						<img class="img-fluid" src="img/emergency.jpg" alt="" style="width:80%;height:40%;">
+						<div >
+							<h1>Emergency Reporting</h1>
+							<p> 
+							<strong>Ajali </strong>haina kinga. Accidents ocassionally happen and without being attended to 
+							early enough, may cause severe injuries or even lead to death of the victim(s). In this section 
+							you will be able to report an emergency and our team will work on i. emergencies will be attended 
+							with regards to their severities and urgency.
+							</p>
+						</div>
 					<div class="row align-items-center justify-content-between" style="padding: 6px 12px; border: 1px solid #ccc;">
 					<form class="form-group" action="emergencyreporting.php"  enctype="multipart/form-data" method="post" style="width:98%;" >
 						<?php include('errors.php');?>

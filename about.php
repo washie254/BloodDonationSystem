@@ -1,8 +1,6 @@
-<?php require('server.php');
-error_reporting(0);
- ?>
 <?php 
-//session_start(); 
+	require('server.php');
+	error_reporting(0); 
 
 if (!isset($_SESSION['username'])) {
 	$_SESSION['msg'] = "You must log in first";
@@ -52,17 +50,18 @@ if (isset($_GET['logout'])) {
 	<!-- :::::::::: get currently logedin USER DETAILS :::::::::::::::::::: -->
 	<?php
 	  $username = $_SESSION['username'];
-	  $con = mysqli_connect('localhost', 'root', '', 'blood_donation_system');
+	//   $con = mysqli_connect('localhost', 'root', '', 'blood_donation_system');
 	  $query = "SELECT * FROM users WHERE username='$username'";
-	  $result = mysqli_query($con, $query);
+	  $result = mysqli_query($db, $query);
 	  while($row = mysqli_fetch_array($result, MYSQLI_NUM)){
 		  $uid = $row[0]; //user id
 		  $uname = $row[1]; //username
-		  $uemail = $row[2]; //email
+		  $uemail = $row[3]; //email
 	  }
 	?>
+
     <body>	
-		<header id="header">
+		<header id="header"> 
 		    <div class="container main-menu">
 		    	<div class="row align-items-center justify-content-between d-flex">
 			      <div id="logo">
@@ -71,8 +70,10 @@ if (isset($_GET['logout'])) {
 			      <nav id="nav-menu-container">
 			        <ul class="nav-menu">
 			          <li><a href="index.php">Home</a></li>
+					  <li><a href="bdonation.php">Blood Donation</a></li>
 			          <li><a href="about.php">Profile</a></li>
 			          <li><a href="services.php">Services</a></li>
+			          <li><a href="charity.php">Charity</a></li>
 					  <li><a href="emergencyreporting.php">Report Em.</a></li>
 					  <li><a href="contact.php">Contact</a></li>
 					  <li> <a href="index.php?logout='1'" style="color: red;">logout</a> </li>
@@ -120,7 +121,7 @@ if (isset($_GET['logout'])) {
 								<div id="View" class="tabcontent">
 								<span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
 								<h3>Bio Information</h3>
-								<p>the folowing are your details.</p>
+								<p>the following are your details.</p>
 								<table class="table">
 									<thead>
 										<tr>
@@ -129,7 +130,7 @@ if (isset($_GET['logout'])) {
 										</tr>
 									</thead>
 									  <?php
-										  	$query2 = "SELECT * FROM userprofile WHERE userID='$uid'";
+										  	$query2 = "SELECT * FROM users WHERE id='$uid'";
 										  	$result2 = mysqli_query($con, $query2);
 											while($row = mysqli_fetch_array($result2, MYSQLI_NUM)){
 												$names = $row[4]." ".$row[5];
@@ -180,7 +181,7 @@ if (isset($_GET['logout'])) {
 								</style>
 								 <?php require('errors.php'); ?>
 								 	<?php 
-										$resultz = mysqli_query($con,"SELECT * FROM userprofile WHERE userID='$uid'");
+										$resultz = mysqli_query($db,"SELECT * FROM users WHERE id='$uid'");
 										$rowz= mysqli_fetch_array($resultz);
 									?>
 									<form class="form" action="about.php" method="post">
@@ -208,7 +209,7 @@ if (isset($_GET['logout'])) {
 										<div class="form-group">
 											<div class="col-xs-6">
 												<label for="email"><h4>Email</h4></label>
-												<input type="email" class="form-control" name="email" id="email" value="<?php echo $rowz['userEmail']; ?>">
+												<input type="email" class="form-control" name="email" id="email" value="<?php echo $rowz['email']; ?>">
 											</div>
 										</div>
 										<div class="form-group">
@@ -257,7 +258,46 @@ if (isset($_GET['logout'])) {
 								<div id="Tokyo" class="tabcontent">
 								<span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
 								<h3>MORE INFO</h3>
-								<p> hajh hj hajhaj .</p>
+								<p> My contributions .</p>
+								<div style="padding: 6px 12px; border: 1px solid #ccc;height:auto; verflow: auto;">
+									<h2>My reported Emergencies</h2>
+			
+									<table class="table table-bordered">
+										<thead>
+											<tr>
+											<th scope="col">ID. </th>
+											<th scope="col">Image</th>
+											<th scope="col">Title</th>
+											<th scope="col">Category</th>
+											<th scope="col">Location</th>
+											<th scope="col">Date & Time</th>
+											<th scope="col">Status</th>
+											<th scope="col">Remarks</th>
+											</tr>
+										</thead>
+										<tbody>
+											<?php
+											//$user = $_SESSION["username"];
+											$sql = "SELECT * FROM emergencies WHERE userid='$uid'";
+											$result = mysqli_query($db, $sql);
+											while($row = mysqli_fetch_array($result, MYSQLI_NUM))
+											{	
+												echo '<tr>';
+													echo '<td>'.$row[0].'</td> '; //ID
+													echo '<td><img height="100" width="150" src="Empics/'.$row[3].' "> </td>'; // IMAGE
+													echo '<td>'.$row[1].'</td> '; //TITLE
+													echo '<td>'.$row[2].'</td>'; //Category
+													echo '<td>'.$row[4].'<br>lat:'.$row[5].'<br>Lng:'.$row[6].'</td>';//Location
+													echo '<td>ON: '.$row[7].'<br>At : '.$row[8].'</td>'; //Date & time
+													echo '<td>'.$row[11].'</td> '; //ID
+													echo '<td>'.$row[12].'</td> '; //ID
+												echo '</tr>';
+											}
+											?>
+										</tbody>
+										</table>
+								</div>
+								
 								</div>
 
 								<script>

@@ -54,10 +54,12 @@ if (isset($_GET['logout'])) {
 			      <nav id="nav-menu-container">
 			        <ul class="nav-menu">
 			          <li><a href="index.php">Home</a></li>
-			          <li><a href="about.php">Profile</a></li>
+					  <li><a href="bdonation.php">Blood Donation</a></li>
 			          <li><a href="services.php">Services</a></li>
+			          <li><a href="charity.php">Charity</a></li>
 					  <li><a href="emergencyreporting.php">Report Em.</a></li>
 					  <li><a href="contact.php">Contact</a></li>
+			          <li><a href="about.php">Profile</a></li>
 					  <li> <a href="index.php?logout='1'" style="color: red;">logout</a> </li>
 					  <li><img src="img/user2.png" style="width:30px;height:30px;" alt="" title="" /><strong><?php echo $_SESSION['username']; ?></strong></li>
 			        </ul>
@@ -100,7 +102,7 @@ if (isset($_GET['logout'])) {
 						<div class="col-lg-4 col-md-6">
 							<div class="single-services">
 								<span class="lnr lnr-camera"></span>
-								<a href="#"><h4>Charity Activities</h4></a>
+								<a href="charity.php"><h4>Charity Activities</h4></a>
 								<p>
 									we also carry out charityevents like walks where we involve our members to take part in this events
 								</p>
