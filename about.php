@@ -131,7 +131,7 @@ if (isset($_GET['logout'])) {
 									</thead>
 									  <?php
 										  	$query2 = "SELECT * FROM users WHERE id='$uid'";
-										  	$result2 = mysqli_query($con, $query2);
+										  	$result2 = mysqli_query($db, $query2);
 											while($row = mysqli_fetch_array($result2, MYSQLI_NUM)){
 												$names = $row[4]." ".$row[5];
 												$bt = $row[7];

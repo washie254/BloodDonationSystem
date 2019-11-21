@@ -1,6 +1,7 @@
 <?php 
 //session_start(); 
 include('server.php');
+
 if (!isset($_SESSION['username'])) {
 	$_SESSION['msg'] = "You must log in first";
 	header('location: login.php');
@@ -11,6 +12,16 @@ if (isset($_GET['logout'])) {
 	unset($_SESSION['username']);
 	header("location: login.php");
 }
+?>
+<?php 
+    $user = $_SESSION['username'];
+    $query = "SELECT * FROM users WHERE username='$user'";
+    $result = mysqli_query($db, $query);
+    
+    while($row = mysqli_fetch_array($result, MYSQLI_NUM)){
+        $uid=$row[0];
+        $uname=$row[1];
+    }
 ?>
 	<!DOCTYPE html>
 	<html lang="zxx" class="no-js">
@@ -67,6 +78,23 @@ if (isset($_GET['logout'])) {
 		    	</div>
 		    </div>
 		  </header><!-- #header -->
+          <script>
+				if(!navigator.geolocation){
+					alert('Your Browser does not support HTML5 Geo Location. Please Use Newer Version Browsers');
+				}
+				navigator.geolocation.getCurrentPosition(success, error);
+				function success(position){
+					var latitude  = position.coords.latitude;	
+					var longitude = position.coords.longitude;	
+					var accuracy  = position.coords.accuracy;
+					document.getElementById("lat").value  = latitude;
+					document.getElementById("lng").value  = longitude;
+					document.getElementById("acc").value  = accuracy;
+				}
+				function error(err){
+					alert('ERROR(' + err.code + '): ' + err.message);
+				}
+			</script>
           <section class="home-about-area pt-120">
           </section>
 			<!-- Start home-about Area -->
@@ -104,52 +132,62 @@ if (isset($_GET['logout'])) {
                                 }
                             </style>
 
-                            <form action="booking.php" method="post" style="width:98%;">
+                            <form action="brequest.php" method="post" style="width:98%;">
                             <?php include('errors.php')?>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                    <label for="inputEmail4">Email</label>
-                                    <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+                                    <label for="inputfacilityname">Facility Name</label>
+                                    <input type="text" class="form-control" id="facilityname" name="facilityname"placeholder="name of the facility" required>
                                     </div>
                                     <div class="form-group col-md-6">
-                                    <label for="inputPassword4">Password</label>
-                                    <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+                                    <label for="wardno">Room / ward No</label>
+                                    <input type="text" class="form-control" id="wardno" name="wardno"placeholder="eg WARD014A or N/A ( if not applicable)" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputAddress">Address</label>
-                                    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                                    <label for="inputtitle">Title</label>
+                                    <input type="text" class="form-control" id="title" name="title" placeholder="eg: Urgent leukemia transfusion needed, Nyeri PGH" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputAddress2">Address 2</label>
-                                    <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+                                    <label for="inputdescription">Brief description</label>
+                                    <textarea type="text" class="form-control" id="description" name="description" placeholder="eprovide a brief descripion on your situation" required></textarea>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                    <label for="inputCity">City</label>
-                                    <input type="text" class="form-control" id="inputCity">
+                                    <label for="inputcontactpersonnames">Names of contact person</label>
+                                    <input type="text" class="form-control" id="contactpersonnames" name="contactpersonnames"placeholder="john Doe" required>
                                     </div>
-                                    <div class="form-group col-md-4">
-                                    <label for="inputState">State</label>
-                                    <select id="inputState" class="form-control">
-                                        <option selected>Choose...</option>
-                                        <option>...</option>
+                                    <div class="form-group col-md-6">
+                                    <label for="contactpersontel">Number of contact person</label>
+                                    <input type="number" class="form-control" id="contactpersontel"  name="contactpersontel" placeholder="0724XXXXXX" required>
+                                    </div>
+                                </div>
+                                <div class="form-grpup">
+                                <label><b>Nature of request</b></label>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-2">
+                                    <label for="inputCity">Who's</label>
+                                    <select id="inputState" name="nature" class="form-control">
+                                        <option selected>Mine</option>
+                                        <option>Another</option>
                                     </select>
                                     </div>
+                                    <div class="form-group col-md-4">
+                                    <label for="inputlat">Location/county</label>
+                                    <input type="text"  class="form-control"id="location" name="location" placeholder="name of the location | county" required/>
+                                    </div>
                                     <div class="form-group col-md-2">
-                                    <label for="inputZip">Zip</label>
-                                    <input type="text" class="form-control" id="inputZip">
+                                    <label for="lng">Lat</label>
+                                    <input type="text" class="form-control" id="lat" name="lat" style="opacity: 0.2;"/>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                    <label for="inputlat">Lng</label>
+                                    <input type="text"  class="form-control"id="lng" name="lng" style="opacity: 0.2;"/>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="gridCheck">
-                                    <label class="form-check-label" for="gridCheck">
-                                        Check me out
-                                    </label>
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Sign in</button>
+                                <input name="userId" value="<?=$uid?>"  style="opacity: 0;"/>
+                                <button type="submit" name="prequest" class="btn btn-primary" style="width:98%;">Request Donation</button>
                             </form>
                         </div>
 				</div>	

@@ -304,5 +304,62 @@
 		}
 	}
 
-	
+	//REQUEST BLOOD
+	//prequest
+	//  :::::::::::::::::::::::;REPORT EMERGENCY :::::::::::: 
+	if (isset($_POST['prequest'])) {
+		$requstrid =mysqli_real_escape_string($db, $_POST['userId']);
+
+		$query0 = "SELECT * FROM users WHERE id='$requstrid'";
+		$result0 = mysqli_query($db, $query0);
+		
+		while($row = mysqli_fetch_array($result0, MYSQLI_NUM)){
+			$bloodgroup=$row[7];
+			$rh=$row[8];
+		}
+		
+		$title = mysqli_real_escape_string($db, $_POST['title']);
+		$description  = mysqli_real_escape_string($db, $_POST['description']);
+		$location = mysqli_real_escape_string($db, $_POST['location']);
+		$lat = $_POST['lat'];
+		$lng = $_POST['lng'];
+		$status = 'PENDING';	
+		$facilityname = mysqli_real_escape_string($db, $_POST['facilityname']);
+		$wardno	=mysqli_real_escape_string($db, $_POST['wardno']);
+		$contactpersontel =mysqli_real_escape_string($db, $_POST['contactpersontel']);
+		$contactpersonnames	= mysqli_real_escape_string($db, $_POST['contactpersonnames']);
+		$nature	= mysqli_real_escape_string($db, $_POST['nature']);
+
+		$phone = $contactpersontel;
+		function validate_phone_number($phone)
+		{
+			// Allow +, - and . in phone number
+			$filtered_phone_number = filter_var($phone, FILTER_SANITIZE_NUMBER_INT);
+			// Remove "-" from number
+			$phone_to_check = str_replace("-", "", $filtered_phone_number);
+			// Check the lenght of number
+			// This can be customized if you want phone number from a specific country
+			if (strlen($phone_to_check) < 9 || strlen($phone_to_check) > 14) {
+			return false;
+			} else {
+			return true;
+			}
+		}
+		//VALIDATE PHONE NUMBER 
+		if (validate_phone_number($phone) !=true) { array_push($errors, "Invalid phone number"); }
+		//VALIDATION OF INPUTS
+		if (empty($rh)) { array_push($errors, "Udate your profile first !"); }
+
+		if (count($errors) == 0) {
+			$sql = "INSERT INTO donationrequests 
+			(requstrid, bloodgroup, rh, date, time, title, description, location, lat, lng, status, facilityname, wardno,contactpersontel, contactpersonnames, nature ) 
+			VALUES 
+			('$requstrid', '$bloodgroup', '$rh', '$cdate', '$ctime', '$title','$description', '$location', '$lat', '$lng', '$status', '$facilityname', '$wardno','$contactpersontel', '$contactpersonnames', '$nature' )";
+			// execute query
+			if(mysqli_query($db, $sql)){
+			  header('location: about.php');
+			}
+		  }
+
+	}
 ?>

@@ -95,27 +95,7 @@ if (isset($_GET['logout'])) {
 				 $uname=$row[1];
 				}
 			?>
-			<!-- start banner Area -->
-			<!-- <section class="banner-area">
-				<div class="container">
-					<div class="row fullscreen align-items-center justify-content-between">
-						<div class="col-lg-6 col-md-6 banner-left">
-							<h1>Emergency Reporting</h1>
-							<p> 
-							<strong>Ajali </strong>haina kinga. Accidents ocassionally happen and without being attended to 
-							early enough, may cause severe injuries or even lead to death of the victim(s). In this section 
-							you will be able to report an emergency and our team will work on i. emergencies will be attended 
-							with regards to their severities and urgency.
-							</p>
-						</div>
-						<div class="col-lg-6 col-md-6 banner-right d-flex align-self-end">
-							<img class="img-fluid" src="img/accident.png" alt="">
-						</div>
-					</div>
-				</div>					
-			</section> -->
-			<!-- End banner Area -->
-
+			
 			<!-- Start home-about Area -->
 			<section class="home-about-area section-gap">
 				<div class="container">
