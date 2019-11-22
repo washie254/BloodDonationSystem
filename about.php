@@ -259,6 +259,9 @@ if (isset($_GET['logout'])) {
 								<span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
 								<h3>MORE INFO</h3>
 								<p> My contributions .</p>
+								<p> <a href="myrequests.php"><button class="btn btn-success" >My Donation Requests</button></a></p>
+								<p> <a href="mypledges.php"><button class="btn btn-primary" >My donation Pledges</button></a></p>
+
 								<div style="padding: 6px 12px; border: 1px solid #ccc;height:auto; verflow: auto;">
 									<h2>My reported Emergencies</h2>
 			

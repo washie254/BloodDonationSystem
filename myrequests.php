@@ -81,11 +81,9 @@ if (isset($_GET['logout'])) {
       <div class="container" style="padding: 6px 12px; border: 1px solid #ccc;">
         <div class="row justify-content-center text-left section-title-wrap"></div>
 		<div class="col-lg-12"  >
-		QUICK LINKS: to your blod requests that you have made.
+		QUICK LINKS: Here are short links to your Blood donation requests made on the platform and their progress<br>
 			<a href="#pending"><button type="button" class="btn btn-outline-success">Pending</button></a>
-			<a href="#inprogress"><button type="button" class="btn btn-outline-success">Solved</button></a>
 			<a href="#solved"><button type="button" class="btn btn-outline-success">Completed</button></a>
-
 		</div>
 	</div>
 	<br>
@@ -98,7 +96,7 @@ if (isset($_GET['logout'])) {
             <!-- <p>MAAJABU</p> -->
           </div>
           <div class="container">
-            <h2><b>Donation Requests</b></h2>
+            <h2><b>My Requests</b></h2>
             <table class="table table-bordered">
               <thead>
                 <tr>
@@ -111,20 +109,19 @@ if (isset($_GET['logout'])) {
 				  <th scope="col">Contact Person</th>
 				  <th scope="col">Facility</th>
 				  <th scope="col">Status</th>
-				  <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
-			  
+                <!-- [ LOOP THE THE PENDING INSIDENTS ] -->
+                <!-- <th scope="row"><?php echo $_SESSION['username'];?></th> -->
                 <?php
-					$user= $_SESSION["username"];
-					$sql0 = "SELECT *FROM users WHERE username='$user'";
-					$result0 = mysqli_query($db,$sql0);
-					while($rowz = mysqli_fetch_array($result0,MYSQLI_NUM)){
-						$uid = $rowz[0];
-					}
-
-                  $sql = "SELECT * FROM donationrequests";
+                    $user= $_SESSION["username"];
+                    $sql0 = "SELECT *FROM users WHERE username='$user'";
+                    $result0 = mysqli_query($db,$sql0);
+                    while($rowz = mysqli_fetch_array($result0,MYSQLI_NUM)){
+                        $uid = $rowz[0];
+                    }
+                  $sql = "SELECT * FROM donationrequests WHERE requstrid='$uid'";
                   $result = mysqli_query($db, $sql);
                   while($row = mysqli_fetch_array($result, MYSQLI_NUM))
                   {	
@@ -140,16 +137,15 @@ if (isset($_GET['logout'])) {
                           $insID= $row[0];
                           $new = basename( $row[4] );
 
-                          echo '<td>'.$row[0].'</td>'; 
-						  echo '<td>'.$bloodtype.'</td>';
-						  echo '<td>'.$datetime.'</td>'; 
-                          echo '<td>'.$titledesc.'</td>'; 
-                          echo '<td>'.$location.'</td>'; 
-						  echo '<td>'.$donorcount.'</td>'; 
-                          echo '<td>'.$contactperson.'</td>'; 
-						  echo '<td>'.$facility.'</td>';    
-						  echo '<td>'.$status.'</td>'; 
-						  echo '<td><a href="donate.php?id='.$row[0].'&don='.$uid.'"><strong><button type="button" class="btn btn-success">Donate</button></td>';
+                          echo '<td>'.$row[0].'</td>'; //Category
+						  echo '<td>'.$bloodtype.'</td>'; //ID
+						  echo '<td>'.$datetime.'</td>'; //TITLE
+                          echo '<td>'.$titledesc.'</td>'; //Category
+                          echo '<td>'.$location.'</td>'; //ID
+						  echo '<td>'.$donorcount.'</td>'; //TITLE
+                          echo '<td>'.$contactperson.'</td>'; //Category/user	  echo '<td>'.$row[0].'</td> '; //ID
+						  echo '<td>'.$facility.'</td>'; //TITLE        
+                          echo '<td>'.$status.'</td>'; //Category
                       echo '</tr>';
                   }
                 ?>
@@ -162,61 +158,6 @@ if (isset($_GET['logout'])) {
   </div>
 </section>
 <br> 
-<section class="quote-area" id="inprogress">
-      <div class="container" style="padding: 6px 12px; border: 1px solid #ccc;">
-        <div class="row justify-content-center text-left section-title-wrap"></div>
-          <div class="col-lg-12">
-            <!-- <p>MAAJABU</p> -->
-          </div>
-          <div class="container">
-            <h2><b>In Progress</b></h2>
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th scope="col">ID. </th>
-                  <th scope="col">Image</th>
-                  <th scope="col">Title</th>
-                  <th scope="col">Category</th>
-                  <th scope="col">Location</th>
-				  <th scope="col">Date & Time</th>
-				  <th scope="col">User</th>
-				  <th scope="col">Mark as</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- [ LOOP THE THE PENDING INSIDENTS ] -->
-                <!-- <th scope="row"><?php echo $_SESSION['username'];?></th> -->
-                <?php
-              
-                  $sql = "SELECT * FROM emergencies WHERE status='BEING SOLVED'";
-                  $result = mysqli_query($db, $sql);
-                  while($row = mysqli_fetch_array($result, MYSQLI_NUM))
-                  {	
-                  
-                      echo '<tr>';;
-                          $insID= $row[0];
-                          $new = basename( $row[4] );
-						  echo '<td>'.$row[0].'</td> '; //ID
-						  echo '<td><img height="100" width="150" src="Empics/'.$row[3].' "> </td>'; // IMAGE
-						  echo '<td>'.$row[1].'</td> '; //TITLE
-                          echo '<td>'.$row[2].'</td>'; //Category
-						  echo '<td>'.$row[4].'<br>lat:'.$row[5].'<br>Lng:'.$row[6].'</td>';//Location
-						  echo '<td>ON: '.$row[7].'<br>At : '.$row[8].'</td>'; //Date & time
-						  echo '<td>'.$row[10].'<br> userid:'.$row[9].'</td> '; //user
-
-                          //MARK AN INCIDENT AS SOLVED
-                          echo '<td><a href="completed.php?id=' . $row[0] . '"><button type="button" class="btn btn-success">Completed..</button></a> </td>';
-                      echo '</tr>';
-                  }
-                ?>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>     
-  </div>
-</section><br>
 
 <section class="quote-area" id="solved" >
       <div class="container" style="padding: 6px 12px; border: 1px solid #ccc;">
@@ -225,43 +166,44 @@ if (isset($_GET['logout'])) {
             <!-- <p>MAAJABU</p> -->
           </div>
           <div class="container">
-            <h2><b>SOVED EMERGENCIES</b></h2>
+            <h2><b>donors on your requests</b></h2>
             <table class="table table-bordered">
               <thead>
                 <tr>
-                  <th scope="col">ID. </th>
-                  <th scope="col">Image</th>
-                  <th scope="col">Title</th>
-                  <th scope="col">Category</th>
-                  <th scope="col">Location</th>
-				  <th scope="col">Date & Time</th>
-				  <th scope="col">User</th>
+                  <th scope="col">Req id. </th>
+                  <th scope="col">Donor id</th>
+                  <th scope="col">Donor Names</th>
+                  <th scope="col">date & time applied</th>
+                  <th scope="col">status</th>
+				  <th scope="col">donor remarks</th>
+				  <th scope="col">action</th>
                 </tr>
               </thead>
               <tbody>
-                <!-- [ LOOP THE THE PENDING INSIDENTS ] -->
-                <!-- <th scope="row"><?php echo $_SESSION['username'];?></th> -->
                 <?php
-              
-                  $sql = "SELECT * FROM emergencies WHERE status='COMPLETED'";
+                  $sql = "SELECT * FROM donationpledges WHERE requesterid='$uid'";
                   $result = mysqli_query($db, $sql);
                   while($row = mysqli_fetch_array($result, MYSQLI_NUM))
-                  {	
-                  
-                      echo '<tr>';;
-                          $insID= $row[0];
-                          $new = basename( $row[4] );
-						  echo '<td>'.$row[0].'</td> '; //ID
-						  echo '<td><img height="100" width="150" src="Empics/'.$row[3].' "> </td>'; // IMAGE
-						  echo '<td>'.$row[1].'</td> '; //TITLE
-                          echo '<td>'.$row[2].'</td>'; //Category
-						  echo '<td>'.$row[4].'<br>lat:'.$row[5].'<br>Lng:'.$row[6].'</td>';//Location
-						  echo '<td>ON: '.$row[7].'<br>At : '.$row[8].'</td>'; //Date & time
-						  echo '<td>'.$row[10].'<br> userid:'.$row[9].'</td> '; //user
+                  {	    $don = $row[2];
+                        $datetime=$row[3]." at".$row[4];
 
-                          //MARK AN INCIDENT AS SOLVED
-                          //echo '<td><a href="solving.php?id=' . $row[0] . '"><button type="button" class="btn btn-success">Completed..</button></a> </td>';
-                      echo '</tr>';
+                        $sql0 = "SELECT * FROM users WHERE id='$don'";
+                        $result0 = mysqli_query($db, $sql);
+                        while($rowt = mysqli_fetch_array($result0, MYSQLI_NUM)){
+                            $donornames = $row[4]."".$row[5];
+                        }
+                        echo '<tr>';
+						  echo '<td>'.$row[1].'</td>'; 
+						  echo '<td>'.$row[2].'</td>';  // IMAGE
+						  echo '<td>'.$donornames.'</td>'; 
+                          echo '<td>'.$datetime.'</td>'; 
+						  echo '<td>'.$row[5].'</td>'; 
+						  echo '<td>'.$row[6].'</td>'; 
+                          echo '<td>
+                                    <a href="acceptpledge.php?id='.$row[0].'"><button type="button" class="btn btn-success">Accept</button></a>
+                                    <a href="rejectpledge.php?id='.$row[0].'"><button type="button" class="btn btn-danger">Reject</button></a>
+                                </td>';
+                        echo '</tr>';
                   }
                 ?>
               </tbody>
