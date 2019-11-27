@@ -27,7 +27,7 @@
 			<button type="submit" class="btn" name="login_admin">Login</button>
 		</div>
 		<p>
-			admin  <a href="admin_register.php">Sign up</a>
+			<!-- admin  <a href="admin_register.php">Sign up</a> -->
 		</p>
 		<p>
 			SignIn as  <a href="login.php">user</a>

@@ -124,7 +124,7 @@ if (isset($_GET['logout'])) {
 						$uid = $rowz[0];
 					}
 
-                  $sql = "SELECT * FROM donationrequests";
+				  $sql = "SELECT * FROM donationrequests WHERE requstrid !='$uid'"; 
                   $result = mysqli_query($db, $sql);
                   while($row = mysqli_fetch_array($result, MYSQLI_NUM))
                   {	
@@ -149,7 +149,7 @@ if (isset($_GET['logout'])) {
                           echo '<td>'.$contactperson.'</td>'; 
 						  echo '<td>'.$facility.'</td>';    
 						  echo '<td>'.$status.'</td>'; 
-						  echo '<td><a href="donate.php?id='.$row[0].'&don='.$uid.'"><strong><button type="button" class="btn btn-success">Donate</button></td>';
+						  echo '<td><a href="donate.php?id='.$row[0].'"><strong><button type="button" class="btn btn-success">Donate</button></td>';
                       echo '</tr>';
                   }
                 ?>

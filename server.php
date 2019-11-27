@@ -362,4 +362,62 @@
 		  }
 
 	}
+
+	
+	if(isset($_POST['pledgedonation'])){
+
+		$donorcount = mysqli_real_escape_string($db, $_POST['donorcount']);
+		$donorid = mysqli_real_escape_string($db, $_POST['donorid']);
+		$requestid =mysqli_real_escape_string($db, $_POST['requestid']);
+		$requesterid = mysqli_real_escape_string($db, $_POST['requesterid']);
+		$dremarks = mysqli_real_escape_string($db, $_POST['donoremarks']);
+
+
+
+		$cdate = date("Y-m-d");
+		$ctime = date("h:i:s");
+		$status = 'PENDING';
+
+		
+
+
+		if (count($errors) == 0) {
+			$query = " INSERT INTO donationpledges (requestid, donorid, date, time, status, dremarks, requesterid)
+								VALUES('$requestid','$donorid','$cdate','$ctime','$status','$dremarks','$requesterid')";
+			$result = mysqli_query($db, $query);
+			
+			if($result){
+				$donorcount = $donorcount+1;
+				$query2 = "UPDATE donationrequests
+							SET donorscount = '$donorcount'
+							WHERE id='$requestid' ";
+				mysqli_query($db,$query2);
+
+				header('location:mypledges.php');
+			}else{
+				echo "Something Went Wrong";
+			}
+
+			
+		}
+	}
+
+	//acceptpledge
+	if(isset($_POST['acceptpledge'])){
+		$rremarks = mysqli_real_escape_string($db, $_POST['rremarks']);
+		$rid = mysqli_real_escape_string($db, $_POST['reqid']);
+
+		$status = 'APPROVED';
+
+		$query2 = "UPDATE donationpledges
+							SET rremarks = '$rremarks',
+							    status='$status'
+							WHERE id='$rid' ";
+		mysqli_query($db,$query2);
+		header('location:mypledges.php');
+
+	}
+
+
+
 ?>

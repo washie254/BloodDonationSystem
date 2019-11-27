@@ -106,7 +106,7 @@ if (isset($_GET['logout'])) {
             <!-- <p>MAAJABU</p> -->
           </div>
           <div class="container">
-            <h2><b>My donation Pledges and their status / progress</b></h2>
+            <h2><b>My Pending blood donation Pledges</b></h2>
             <table class="table table-bordered">
               <thead>
                 <tr>
@@ -116,12 +116,11 @@ if (isset($_GET['logout'])) {
                   <th scope="col">date & time applied</th>
                   <th scope="col">status</th>
 				  <th scope="col">donor remarks</th>
-				  <th scope="col">action</th>
                 </tr>
               </thead>
               <tbody>
                 <?php
-                  $sql = "SELECT * FROM donationpledges WHERE donorid='$uid'";
+                  $sql = "SELECT * FROM donationpledges WHERE donorid='$uid'AND status='PENDING'";
                   $result = mysqli_query($db, $sql);
                   while($row = mysqli_fetch_array($result, MYSQLI_NUM))
                   {	    $don = $row[2];
@@ -139,10 +138,6 @@ if (isset($_GET['logout'])) {
                           echo '<td>'.$datetime.'</td>'; 
 						  echo '<td>'.$row[5].'</td>'; 
 						  echo '<td>'.$row[6].'</td>'; 
-                          echo '<td>
-                                    <a href="acceptpledge.php?id='.$row[0].'"><button type="button" class="btn btn-success">Accept</button></a>
-                                    <a href="rejectpledge.php?id='.$row[0].'"><button type="button" class="btn btn-danger">Reject</button></a>
-                                </td>';
                         echo '</tr>';
                   }
                 ?>
@@ -161,11 +156,89 @@ if (isset($_GET['logout'])) {
           <div class="col-lg-12">
             <!-- <p>MAAJABU</p> -->
           </div>
-          <div class="container">
-            <h2><b>FYI</b></h2>
-           <p> the obve are the pledges of donations you have made earlier and their status, notice that once approved you cannot 
-           be allowed to make more pledges untilthe current pledge is approved . also you can only donate blood after a minimum of 
-           3 months
+		  <br>
+			<div class="container">
+            <h2><b>My Apporoved blood donation pledges</b></h2>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">Req id. </th>
+                  <th scope="col">Donor id</th>
+                  <th scope="col">Donor Names</th>
+                  <th scope="col">date & time applied</th>
+                  <th scope="col">status</th>
+				  <th scope="col">donor remarks</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php
+                  $sql = "SELECT * FROM donationpledges WHERE donorid='$uid' AND status='APPROVED'";
+                  $result = mysqli_query($db, $sql);
+                  while($row = mysqli_fetch_array($result, MYSQLI_NUM))
+                  {	    $don = $row[2];
+                        $datetime=$row[3]." at".$row[4];
+
+                        $sql0 = "SELECT * FROM users WHERE id='$don'";
+                        $result0 = mysqli_query($db, $sql);
+                        while($rowt = mysqli_fetch_array($result0, MYSQLI_NUM)){
+                            $donornames = $row[4]."".$row[5];
+                        }
+                        echo '<tr>';
+						  echo '<td>'.$row[1].'</td>'; 
+						  echo '<td>'.$row[2].'</td>';  // IMAGE
+						  echo '<td>'.$donornames.'</td>'; 
+                          echo '<td>'.$datetime.'</td>'; 
+						  echo '<td>'.$row[5].'</td>'; 
+						  echo '<td>'.$row[6].'</td>'; 
+                        echo '</tr>';
+                  }
+                ?>
+              </tbody>
+            </table>
+          	</div>
+			  <br>
+			  <div class="container">
+            <h2><b>My Completed Blood Donatin pledges</b></h2>
+            <table class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">Req id. </th>
+                  <th scope="col">Donor id</th>
+                  <th scope="col">Donor Names</th>
+                  <th scope="col">date & time applied</th>
+                  <th scope="col">status</th>
+				  <th scope="col">donor remarks</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php
+                  $sql = "SELECT * FROM donationpledges WHERE donorid='$uid' AND status='COMPLETED'";
+                  $result = mysqli_query($db, $sql);
+                  while($row = mysqli_fetch_array($result, MYSQLI_NUM))
+                  {	    $don = $row[2];
+                        $datetime=$row[3]." at".$row[4];
+
+                        $sql0 = "SELECT * FROM users WHERE id='$don'";
+                        $result0 = mysqli_query($db, $sql);
+                        while($rowt = mysqli_fetch_array($result0, MYSQLI_NUM)){
+                            $donornames = $row[4]."".$row[5];
+                        }
+                        echo '<tr>';
+						  echo '<td>'.$row[1].'</td>'; 
+						  echo '<td>'.$row[2].'</td>';  // IMAGE
+						  echo '<td>'.$donornames.'</td>'; 
+                          echo '<td>'.$datetime.'</td>'; 
+						  echo '<td>'.$row[5].'</td>'; 
+						  echo '<td>'.$row[6].'</td>'; 
+                        echo '</tr>';
+                  }
+                ?>
+              </tbody>
+            </table>
+          	</div>
+
+
+
           </div>
         </div>
       </div>
