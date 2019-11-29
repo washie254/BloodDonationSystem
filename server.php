@@ -418,6 +418,36 @@
 
 	}
 
+	
+	if(isset($_POST['solvingemer'])){
+		$emid = mysqli_real_escape_string($db, $_POST['emid']);
+		$feedback = mysqli_real_escape_string($db, $_POST['feedback']);
+
+		$status = 'IN PROGRESS';	
+
+		$query2 = "UPDATE emergencies
+							SET status = '$status',
+							    remarks='$feedback'
+							WHERE id='$emid' ";
+		mysqli_query($db,$query2);
+		header('location:admin_cases.php');
+
+	}
+
+	if(isset($_POST['completemer'])){
+		$emid = mysqli_real_escape_string($db, $_POST['emid']);
+		$feedback = mysqli_real_escape_string($db, $_POST['feedback']);
+
+		$status = 'COMPLETE';	
+
+		$query2 = "UPDATE emergencies
+							SET status = '$status',
+							    remarks='$feedback'
+							WHERE id='$emid' ";
+		mysqli_query($db,$query2);
+		header('location:admin_cases.php');
+
+	}
 
 
 ?>

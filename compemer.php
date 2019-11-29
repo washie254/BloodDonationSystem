@@ -1,6 +1,11 @@
+
 <?php
 	include('server.php');
 //session_start(); 
+
+if(isset($_GET['id'])){
+    $emid = $_GET['id'];
+}
 
 if (!isset($_SESSION['username'])) {
 	$_SESSION['msg'] = "You must log in first";
@@ -54,9 +59,13 @@ if (isset($_GET['logout'])) {
 			      </div>
 			      <nav id="nav-menu-container">
 			        <ul class="nav-menu">
-			          <li><a href="admin_index.php">Admin Home</a></li>
-			          <li><a href="admin_cases.php"> Emergencies</a></li>
-                      <li><a href="admin_body.php">Blood Banks</a></li>
+			          <li><a href="index.php">Home</a></li>
+					  <li><a href="bdonation.php">Blood Donation</a></li>
+			          <li><a href="about.php">Profile</a></li>
+			          <li><a href="services.php">Services</a></li>
+			          <li><a href="charity.php">Charity</a></li>
+					  <li><a href="emergencyreporting.php">Report Em.</a></li>
+					  <li><a href="contact.php">Contact</a></li>
 					  <li> <a href="index.php?logout='1'" style="color: red;">logout</a> </li>
 					  <li><img src="img/user2.png" style="width:30px;height:30px;" alt="" title="" /><strong><?php echo $_SESSION['username']; ?></strong></li>
 			        </ul>
@@ -77,183 +86,83 @@ if (isset($_GET['logout'])) {
       <div class="container" style="padding: 6px 12px; border: 1px solid #ccc;">
         <div class="row justify-content-center text-left section-title-wrap"></div>
 		<div class="col-lg-12"  >
-		QUICK LINKS: 
-			<a href="#pending"><button type="button" class="btn btn-outline-success">Pending</button></a>
-			<a href="#inprogress"><button type="button" class="btn btn-outline-success">Solved</button></a>
-			<a href="#solved"><button type="button" class="btn btn-outline-success">Completed</button></a>
+		    INFORMATION PERTAINING THE REPORTED EMERGENCY<br>
+			<?php
+				// $user= $_SESSION["username"];
+				// $sql0 = "SELECT *FROM users WHERE username='$user'";
+				// $result0 = mysqli_query($db,$sql0);
+				// while($rowz = mysqli_fetch_array($result0,MYSQLI_NUM)){
+				// 	$uid = $rowz[0];
+
+				// }
+
+				$sql = "SELECT * FROM emergencies  WHERE id='$emid'"; 
+				$result = mysqli_query($db, $sql);
+				while($row = mysqli_fetch_array($result, MYSQLI_NUM))
+				{	
+					$title = $row[1];
+					$category = $row[2];
+					$image = $row[3];
+                    $location = $row[4]; 
+                    $coords = $row[5]." ,".$row[6];
+					$datereported = $row[7]." AT ".$row[8];
+					$userid = $row[9];   
+					$username = $row[10];
+                    $status = $row[11];
+                    
+                ?>
+                
+                <div class="row">
+                    <div class="col-sm-8">
+                    INFORMATION ABOUT THE INCIDENT <BR>
+                    <label><b>Titlle : </b><?=$title?></label><br>
+                    <label><b>Category : </b><?=$category?></label><br>
+                    <label><b>Location : </b><?=$location?></label><br>
+                    <label><b>Date Reported : </b><?=$datereported?></label><br>
+                    <label><b>User : </b><?=$username?></label><br>
+                    
+                    </div>
+                    <div class="col-sm-4">
+                        <img src="Empics/<?=$image?>" style="width:100%; height:100%;">
+                    </div>
+                </div>
+                
+                <?php
+				
+				}
+			?>
+			<br>
+          
+
+			<form class="form-group" action="compemer.php"  method="post" style="width:98%;" >
+			<?php include('errors.php');?>
+				<input name="emid" value="<?=$emid?>" style="opacity: 0.2;" readonly/>
+				<div class="form-group">	
+					<div class="col-xs-6">
+						<label for="em_tImage"><h4>Add remarks </h4></label>
+						<textarea type="text" class="form-control" name="feedback" placeholder="user can see this remarks for comletion" id="remarks" required></textarea>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="col-xs-12">
+						<br>
+						<button class="btn btn-lg btn-success" style="width:100%;" type="submit" name="completemer"><i class="glyphicon glyphicon-ok-sign"></i>Working on it</button>
+					</div>
+				</div>
+					
+			</form>
+
+
 
 		</div>
 	</div>
 	<br>
 	</section>
 
-	<section class="quote-area"  id="pending">
-      <div class="container" style="padding: 6px 12px; border: 1px solid #ccc;">
-        <div class="row justify-content-center text-left section-title-wrap"></div>
-          <div class="col-lg-12">
-            <!-- <p>MAAJABU</p> -->
-          </div>
-          <div class="container">
-            <h2><b>UNSOLVED EMERGENCIES</b></h2>
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th scope="col">ID. </th>
-                  <th scope="col">Image</th>
-                  <th scope="col">Title</th>
-                  <th scope="col">Category</th>
-                  <th scope="col">Location</th>
-				  <th scope="col">Date & Time</th>
-				  <th scope="col">User</th>
-				  <th scope="col">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- [ LOOP THE THE PENDING INSIDENTS ] -->
-                <!-- <th scope="row"><?php echo $_SESSION['username'];?></th> -->
-                <?php
-              
-                  $sql = "SELECT * FROM emergencies WHERE status='PENDING'";
-                  $result = mysqli_query($db, $sql);
-                  while($row = mysqli_fetch_array($result, MYSQLI_NUM))
-                  {	
-                  
-                      echo '<tr>';;
-                          $insID= $row[0];
-                          $new = basename( $row[4] );
-						  echo '<td>'.$row[0].'</td> '; //ID
-						  echo '<td><img height="100" width="150" src="Empics/'.$row[3].' "> </td>'; // IMAGE
-						  echo '<td>'.$row[1].'</td> '; //TITLE
-                          echo '<td>'.$row[2].'</td>'; //Category
-						  echo '<td>'.$row[4].'<br>lat:'.$row[5].'<br>Lng:'.$row[6].'</td>';//Location
-						  echo '<td>ON: '.$row[7].'<br>At : '.$row[8].'</td>'; //Date & time
-						  echo '<td>'.$row[10].'<br> userid:'.$row[9].'</td> '; //user
 
-                          //MARK AN INCIDENT AS SOLVED
-						  echo '<td><a href="solveem.php?id='.$row[0].'"><button type="button" class="btn btn-primary">Solving..</button></a> </td>';
-                      echo '</tr>';
-                  }
-                ?>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>     
-  </div>
-</section>
-<br> 
-<section class="quote-area" id="inprogress">
-      <div class="container" style="padding: 6px 12px; border: 1px solid #ccc;">
-        <div class="row justify-content-center text-left section-title-wrap"></div>
-          <div class="col-lg-12">
-            <!-- <p>MAAJABU</p> -->
-          </div>
-          <div class="container">
-            <h2><b>Emergencies In Progress</b></h2>
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th scope="col">ID. </th>
-                  <th scope="col">Image</th>
-                  <th scope="col">Title</th>
-                  <th scope="col">Category</th>
-                  <th scope="col">Location</th>
-				  <th scope="col">Date & Time</th>
-				  <th scope="col">User</th>
-				  <th scope="col">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- [ LOOP THE THE PENDING INSIDENTS ] -->
-                <!-- <th scope="row"><?php echo $_SESSION['username'];?></th> -->
-                <?php
-              
-                  $sql = "SELECT * FROM emergencies WHERE status='PENDING'";
-                  $result = mysqli_query($db, $sql);
-                  while($row = mysqli_fetch_array($result, MYSQLI_NUM))
-                  {	
-                  
-                      echo '<tr>';;
-                          $insID= $row[0];
-                          $new = basename( $row[4] );
-						  echo '<td>'.$row[0].'</td> '; //ID
-						  echo '<td><img height="100" width="150" src="Empics/'.$row[3].' "> </td>'; // IMAGE
-						  echo '<td>'.$row[1].'</td> '; //TITLE
-                          echo '<td>'.$row[2].'</td>'; //Category
-						  echo '<td>'.$row[4].'<br>lat:'.$row[5].'<br>Lng:'.$row[6].'</td>';//Location
-						  echo '<td>ON: '.$row[7].'<br>At : '.$row[8].'</td>'; //Date & time
-						  echo '<td>'.$row[10].'<br> userid:'.$row[9].'</td> '; //user
 
-                          //MARK AN INCIDENT AS SOLVED
-						  echo '<td><a href="solveem.php?id='.$row[0].'"><button type="button" class="btn btn-primary">Solving..</button></a> </td>';
-                      echo '</tr>';
-                  }
-                ?>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>     
-  </div>
-</section><br>
 
-<section class="quote-area" id="solved" >
-      <div class="container" style="padding: 6px 12px; border: 1px solid #ccc;">
-        <div class="row justify-content-center text-left section-title-wrap"></div>
-          <div class="col-lg-12" >
-            <!-- <p>MAAJABU</p> -->
-          </div>
-          <div class="container">
-            <h2><b>SOLVED EMERGENCIES</b></h2>
-			<table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th scope="col">ID. </th>
-                  <th scope="col">Image</th>
-                  <th scope="col">Title</th>
-                  <th scope="col">Category</th>
-                  <th scope="col">Location</th>
-				  <th scope="col">Date & Time</th>
-				  <th scope="col">User</th>
-				  <!-- <th scope="col">Action</th> -->
-                </tr>
-              </thead>
-              <tbody>
-                <!-- [ LOOP THE THE PENDING INSIDENTS ] -->
-                <!-- <th scope="row"><?php echo $_SESSION['username'];?></th> -->
-                <?php
-              
-                  $sql = "SELECT * FROM emergencies WHERE status='COMPLETE'";
-                  $result = mysqli_query($db, $sql);
-                  while($row = mysqli_fetch_array($result, MYSQLI_NUM))
-                  {	
-                  
-                      echo '<tr>';;
-                          $insID= $row[0];
-                          $new = basename( $row[4] );
-						  echo '<td>'.$row[0].'</td> '; //ID
-						  echo '<td><img height="100" width="150" src="Empics/'.$row[3].' "> </td>'; // IMAGE
-						  echo '<td>'.$row[1].'</td> '; //TITLE
-                          echo '<td>'.$row[2].'</td>'; //Category
-						  echo '<td>'.$row[4].'<br>lat:'.$row[5].'<br>Lng:'.$row[6].'</td>';//Location
-						  echo '<td>ON: '.$row[7].'<br>At : '.$row[8].'</td>'; //Date & time
-						  echo '<td>'.$row[10].'<br> userid:'.$row[9].'</td> '; //user
-
-                          //MARK AN INCIDENT AS SOLVED
-						  //echo '<td><a href="solveem.php?id='.$row[0].'"><button type="button" class="btn btn-primary">Solving..</button></a> </td>';
-                      echo '</tr>';
-                  }
-                ?>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>     
-  </div>
-</section><br>
 
 			<section class="facts-area section-gap" id="facts-area">
 				<div class="container">				
