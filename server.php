@@ -185,7 +185,6 @@
 
 	}
 
-
 	//  :::::::::::::::::::::::;REPORT EMERGENCY :::::::::::: 
 	if (isset($_POST['ReportEmer'])) {
 		$title = mysqli_real_escape_string($db, $_POST['emTitle']);
@@ -372,14 +371,9 @@
 		$requesterid = mysqli_real_escape_string($db, $_POST['requesterid']);
 		$dremarks = mysqli_real_escape_string($db, $_POST['donoremarks']);
 
-
-
 		$cdate = date("Y-m-d");
 		$ctime = date("h:i:s");
 		$status = 'PENDING';
-
-		
-
 
 		if (count($errors) == 0) {
 			$query = " INSERT INTO donationpledges (requestid, donorid, date, time, status, dremarks, requesterid)
