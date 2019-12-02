@@ -98,6 +98,7 @@ if (isset($_GET['logout'])) {
           </div>
           <div class="container">
             <h2><b>Users in the system</b></h2>
+			<p><a  href="pdf/users.php" target='0'>Donload Report</a></p>
             <table class="table table-bordered">
               <thead>
                 <tr>
