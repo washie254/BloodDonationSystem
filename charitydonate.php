@@ -1,5 +1,6 @@
 <?php 
-session_start(); 
+include('server.php');
+//session_start(); 
 
 if (!isset($_SESSION['username'])) {
 	$_SESSION['msg'] = "You must log in first";
@@ -71,50 +72,54 @@ if (isset($_GET['logout'])) {
 
 			<!-- Start services Area -->
 			<section class="services-area section-gap">
-				<div class="container">
-		            <div class="row d-flex justify-content-center">
-		                <div class="menu-content  col-lg-7">
-		                    <div class="title text-center">
-		                        <h1 class="mb-10">Red-Cross Charity Services</h1>
-		                        <p>There are other ways you can contribute to the red cross team through diverse charity acts. </p>
-		                    </div>
-		                </div>
-		            </div>						
-					<div class="row">
-						<div class="col-lg-4 col-md-6">
-							<div class="single-services">
-								<span class="lnr lnr-home"></span>
-								<a href="charitydonate.php"><h4>donation of Basic Needs</h4></a>
-								<p>
-									we do carry out food and clothing donations to the less fortunate inclusive of childrens homes. you can send this donations at various
-                                    pickup points across the country.
-								</p>
+            <div class="container">
+						<img class="img-fluid" src="img/charity.jpg" alt="" style="width:250px;height:200px;">
+						<div >
+							<h1>Donation of charity </h1>
+							<p> 
+							fill in the following form to account for your donation
+                             </p>
+						</div>
+					<div class="row align-items-center justify-content-between" style="padding: 6px 12px; border: 1px solid #ccc;">
+					<form class="form-group" action="charitydonate.php"  enctype="multipart/form-data" method="post" style="width:98%;" >
+						<?php include('errors.php');?>
+						
+						<div class="form-group">	
+							<div class="col-xs-6">
+								<label for="em_Category"><h4>Select Donation Category</h4></label>
+								<select type="text" class="form-control" name="Category" id="emCategory">
+									<option value="Clothing">Clothing</option>
+									<option value="Food">Food</option>
+									<option value="Equipment">Equipment</option>
+									<option value="Other">Other</option>
+								</select>
+						 	</div>
+						</div>
+                        <div class="form-group">	
+							<div class="col-xs-6">
+								<label for="phone"><h4>Estimate Weight (in Kgs)</h4></label>
+								<input type="number" class="form-control" name="Weight"  placeholder="estimated weight" />
 							</div>
 						</div>
-						<div class="col-lg-4 col-md-6">
-							<div class="single-services">
-								<span class="lnr lnr-laptop-phone"></span>
-								<a href="emergencyreporting.php"><h4>Equipment</h4></a>
-								<p>
-								   we also collect  equipment donations which assist in carrying out the red cross mandate. the equipment may be donated 
-                                   or for use in other branches of redcross across the country.
-								</p>
+						<div class="form-group">	
+							<div class="col-xs-6">
+								<label for="phone"><h4>Description</h4></label>
+								<textarea type="text" class="form-control" rows="3" cols="4" name="Description"  placeholder="enter a brief description pertaining your doantion" ></textarea>
 							</div>
 						</div>
-						<div class="col-lg-4 col-md-6">
-							<div class="single-services">
-								<span class="lnr lnr-camera"></span>
-								<a href="#"><h4>Funds</h4></a>
-								<p>
-									this can assist cater for the redcross expenses in carying out the good work.<br>
-                                    The official MPESA PayBill number: 848484 <br>
-
-								</p>
-							</div>	
+                        <input name="userName" value="<?=$uname?>" style="opacity: 0.4;" />
+                      	<input name="userId" value="<?=$uid?>"  style="opacity: 0.4;"/>
+						<div class="form-group">
+							<div class="col-xs-12">
+								<br>
+								<button class="btn btn-lg btn-success" type="submit" name="charitydonation" style="width:100%"><i class="glyphicon glyphicon-ok-sign"></i> Donate </button>
+							</div>
 						</div>
-																	
+						
+						</form>
 					</div>
 				</div>	
+                
 			</section>
 			<!-- End services Area -->				
 
