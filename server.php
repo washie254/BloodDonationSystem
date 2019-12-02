@@ -443,5 +443,51 @@
 
 	}
 
+	
+	if(isset($_POST['charitydonation'])){
+
+		$username = mysqli_real_escape_string($db, $_POST['username']);
+		$userid = mysqli_real_escape_string($db, $_POST['userid']);
+		$category =mysqli_real_escape_string($db, $_POST['Category']);
+		$weight =mysqli_real_escape_string($db, $_POST['Weight']);
+		$description =mysqli_real_escape_string($db, $_POST['Description']);
+
+		$cdate = date("Y-m-d");
+		$ctime = date("h:i:s");
+		$status = 'PENDING';
+		if (empty($username)) { array_push($errors, "username!"); }
+		if (empty($userid)) { array_push($errors, "userid !"); }
+		if (empty($category)) { array_push($errors, "category!"); }
+		if (empty($weight)) { array_push($errors, "weight !"); }
+		if (empty($description)) { array_push($errors, "description !"); }
+
+		if (count($errors) == 0) {
+			$query = " INSERT INTO donations (userid, username, category, description, weight, dateposted, timeposted, status)
+									VALUES('$userid','$username','$category','$description','$weight','$cdate','$ctime','$status')";
+			$result = mysqli_query($db, $query);
+
+			header('location:mycharitydonations.php');
+		}
+	}
+
+	
+	if(isset($_POST['donationfeedback'])){
+		$emid = mysqli_real_escape_string($db, $_POST['emid']);
+		$feedback = mysqli_real_escape_string($db, $_POST['feedback']);
+
+		$status = 'RECIEVED';	
+		$cdate = date("Y-m-d");
+		$ctime = date("h:i:s");
+
+		$query2 = "UPDATE donations
+							SET status = '$status',
+							    remarks='$feedback',
+								datereceived = '$cdate',
+								timereceived = '$ctime'
+							WHERE id='$emid' ";
+		mysqli_query($db,$query2);
+		header('location:admin_donations.php');
+
+	}
 
 ?>

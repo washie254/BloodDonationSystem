@@ -69,68 +69,53 @@ if (isset($_GET['logout'])) {
 		    </div>
 		  </header><!-- #header -->
 		  	  
-
+            <?php 
+                $user = $_SESSION['username'];
+                $query = "SELECT * FROM users WHERE username='$user'";
+                $result = mysqli_query($db, $query);
+                
+                while($row = mysqli_fetch_array($result, MYSQLI_NUM)){
+                $uid=$row[0];
+                $uname=$row[1];
+                }
+            ?>
+			
 			<!-- Start services Area -->
 			<section class="services-area section-gap">
-            <div class="container">
-						<img class="img-fluid" src="img/charity.jpg" alt="" style="width:250px;height:200px;">
-						<div >
-							<h1>Donation of charity </h1>
-							<p> 
-							fill in the following form to account for your donation
-                             </p>
-						</div>
-                        <?php 
-                            $user = $_SESSION['username'];
-                            $query = "SELECT * FROM users WHERE username='$user'";
-                            $result = mysqli_query($db, $query);
-                            
-                            while($row = mysqli_fetch_array($result, MYSQLI_NUM)){
-                            $uid=$row[0];
-                            $uname=$row[1];
-                            }
-                        ?>
-			
-					<div class="row align-items-center justify-content-between" style="padding: 6px 12px; border: 1px solid #ccc;">
-					<form class="form-group" action="charitydonate.php" method="post" style="width:98%;" >
-						<?php include('errors.php');?>
-						
-						<div class="form-group">	
-							<div class="col-xs-6">
-								<label for="em_Category"><h4>Select Donation Category</h4></label>
-								<select type="text" class="form-control" name="Category" id="emCategory">
-									<option value="Clothing">Clothing</option>
-									<option value="Food">Food</option>
-									<option value="Equipment">Equipment</option>
-									<option value="Other">Other</option>
-								</select>
-						 	</div>
-						</div>
-                        <div class="form-group">	
-							<div class="col-xs-6">
-								<label for="phone"><h4>Estimate Weight (in Kgs)</h4></label>
-								<input type="number" class="form-control" name="Weight"  placeholder="estimated weight" />
-							</div>
-						</div>
-						<div class="form-group">	
-							<div class="col-xs-6">
-								<label for="phone"><h4>Description</h4></label>
-								<textarea type="text" class="form-control" rows="3" cols="4" name="Description"  placeholder="enter a brief description pertaining your doantion" ></textarea>
-							</div>
-						</div>
-                        <input name="username" value="<?=$uname?>" style="opacity: 0.4;" readonly/>
-                      	<input name="userid" value="<?=$uid?>"  style="opacity: 0.4;" readonly/>
-						<div class="form-group">
-							<div class="col-xs-12">
-								<br>
-								<button class="btn btn-lg btn-success" type="submit" name="charitydonation" style="width:100%"><i class="glyphicon glyphicon-ok-sign"></i> Donate </button>
-							</div>
-						</div>
-						
-						</form>
-					</div>
-				</div>	
-                
+                <div class="container">
+                <h2><b>My donations and their status</b></h2>
+                <table class="table table-bordered">
+                <thead>
+                    <tr>
+                    <th scope="col">Donation ID. </th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Donation date</th>
+                    <th scope="col">Donation time</th>
+                    <th scope="col">status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $sql = "SELECT * FROM donations WHERE userid='$uid'";
+                    $result = mysqli_query($db, $sql);
+                    while($row = mysqli_fetch_array($result, MYSQLI_NUM))
+                    {	    $don = $row[2];
+                            $datetime=$row[6]." at".$row[7];
+
+                            echo '<tr>';
+                            echo '<td>'.$row[0].'</td>'; 
+                            echo '<td>'.$row[3].'</td>';  // IMAGE
+                            echo '<td>'.$row[4].'</td>'; 
+                            echo '<td>'.$row[6].'</td>'; 
+                            echo '<td>'.$row[7].'</td>'; 
+                            echo '<td>'.$row[8].'</td>'; 
+                            echo '</tr>';
+                    }
+                    ?>
+                </tbody>
+                </table>
+                </div>
 			</section>
 			<!-- End services Area -->				
 

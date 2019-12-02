@@ -1,6 +1,10 @@
-<?php 
-include('server.php');
+<?php
+	include('server.php');
 //session_start(); 
+
+if(isset($_GET['id'])){
+    $emid = $_GET['id'];
+}
 
 if (!isset($_SESSION['username'])) {
 	$_SESSION['msg'] = "You must log in first";
@@ -29,7 +33,7 @@ if (isset($_GET['logout'])) {
 		<!-- meta character set -->
 		<meta charset="UTF-8">
 		<!-- Site Title -->
-		<title>Personal</title>
+		<title>RED CROSS</title>
 
 		<link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet"> 
 			<!--
@@ -38,29 +42,29 @@ if (isset($_GET['logout'])) {
 			<link rel="stylesheet" href="css/linearicons.css">
 			<link rel="stylesheet" href="css/font-awesome.min.css">
 			<link rel="stylesheet" href="css/bootstrap.css">
-			<link rel="stylesheet" href="css/magnific-popup.css">			
+			<link rel="stylesheet" href="css/magnific-popup.css">
+			<link rel="stylesheet" href="css/jquery-ui.css">				
 			<link rel="stylesheet" href="css/nice-select.css">							
 			<link rel="stylesheet" href="css/animate.min.css">
-			<link rel="stylesheet" href="css/owl.carousel.css">			
-			<link rel="stylesheet" href="css/jquery-ui.css">			
+			<link rel="stylesheet" href="css/owl.carousel.css">				
 			<link rel="stylesheet" href="css/main.css">
 		</head>
 		<body>	
-		<header id="header">
+		  <header id="header">
 		    <div class="container main-menu">
 		    	<div class="row align-items-center justify-content-between d-flex">
 			      <div id="logo">
-			        <a href="index.html"><img src="img/logo.png" alt="" title="" /></a>
+			        <a href="admin_index.php"><img src="img/logo.png" alt="" title="" /></a>
 			      </div>
 			      <nav id="nav-menu-container">
 			        <ul class="nav-menu">
 			          <li><a href="index.php">Home</a></li>
 					  <li><a href="bdonation.php">Blood Donation</a></li>
+			          <li><a href="about.php">Profile</a></li>
 			          <li><a href="services.php">Services</a></li>
 			          <li><a href="charity.php">Charity</a></li>
 					  <li><a href="emergencyreporting.php">Report Em.</a></li>
 					  <li><a href="contact.php">Contact</a></li>
-			          <li><a href="about.php">Profile</a></li>
 					  <li> <a href="index.php?logout='1'" style="color: red;">logout</a> </li>
 					  <li><img src="img/user2.png" style="width:30px;height:30px;" alt="" title="" /><strong><?php echo $_SESSION['username']; ?></strong></li>
 			        </ul>
@@ -68,97 +72,100 @@ if (isset($_GET['logout'])) {
 		    	</div>
 		    </div>
 		  </header><!-- #header -->
-		  	  
 
-			<!-- Start services Area -->
-			<section class="services-area section-gap">
-            <div class="container">
-						<img class="img-fluid" src="img/charity.jpg" alt="" style="width:250px;height:200px;">
-						<div >
-							<h1>Donation of charity </h1>
-							<p> 
-							fill in the following form to account for your donation
-                             </p>
-						</div>
-                        <?php 
-                            $user = $_SESSION['username'];
-                            $query = "SELECT * FROM users WHERE username='$user'";
-                            $result = mysqli_query($db, $query);
-                            
-                            while($row = mysqli_fetch_array($result, MYSQLI_NUM)){
-                            $uid=$row[0];
-                            $uname=$row[1];
-                            }
-                        ?>
-			
-					<div class="row align-items-center justify-content-between" style="padding: 6px 12px; border: 1px solid #ccc;">
-					<form class="form-group" action="charitydonate.php" method="post" style="width:98%;" >
-						<?php include('errors.php');?>
+		  <section class="home-about-area pt-120">
+				<div class="container">
+					<div class="row align-items-center justify-content-between">
 						
-						<div class="form-group">	
-							<div class="col-xs-6">
-								<label for="em_Category"><h4>Select Donation Category</h4></label>
-								<select type="text" class="form-control" name="Category" id="emCategory">
-									<option value="Clothing">Clothing</option>
-									<option value="Food">Food</option>
-									<option value="Equipment">Equipment</option>
-									<option value="Other">Other</option>
-								</select>
-						 	</div>
-						</div>
-                        <div class="form-group">	
-							<div class="col-xs-6">
-								<label for="phone"><h4>Estimate Weight (in Kgs)</h4></label>
-								<input type="number" class="form-control" name="Weight"  placeholder="estimated weight" />
-							</div>
-						</div>
-						<div class="form-group">	
-							<div class="col-xs-6">
-								<label for="phone"><h4>Description</h4></label>
-								<textarea type="text" class="form-control" rows="3" cols="4" name="Description"  placeholder="enter a brief description pertaining your doantion" ></textarea>
-							</div>
-						</div>
-                        <input name="username" value="<?=$uname?>" style="opacity: 0.4;" readonly/>
-                      	<input name="userid" value="<?=$uid?>"  style="opacity: 0.4;" readonly/>
-						<div class="form-group">
-							<div class="col-xs-12">
-								<br>
-								<button class="btn btn-lg btn-success" type="submit" name="charitydonation" style="width:100%"><i class="glyphicon glyphicon-ok-sign"></i> Donate </button>
-							</div>
-						</div>
-						
-						</form>
 					</div>
 				</div>	
+			</section>
+		  <br>
+	<section class="quote-area"  id="pending">
+      <div class="container" style="padding: 6px 12px; border: 1px solid #ccc;">
+        <div class="row justify-content-center text-left section-title-wrap"></div>
+		<div class="col-lg-12"  >
+		    INFORMATION PERTAINING THE DONATION<br>
+			<?php
+
+				$sql = "SELECT * FROM donations  WHERE id='$emid'"; 
+				$result = mysqli_query($db, $sql);
+				while($row = mysqli_fetch_array($result, MYSQLI_NUM))
+				{	
+					$id = $row[0];
+					$user = $row[2];
+					$category= $row[3];
+                    $description = $row[4]; 
+                    $weight = $row[5];
+					$dateposted = $row[6]." AT ".$row[7];
+                    
+                ?>
                 
-			</section>
-			<!-- End services Area -->				
+                <div class="row">
+                    <div class="col-sm-8">
+                    INFORMATION ABOUT THE INCIDENT <BR>
+                    <label><b>ID : </b><?=$id?></label><br>
+                    <label><b>User : </b><?=$user?></label><br>
+                    <label><b>Category : </b><?=$category?></label><br>
+                    <label><b>Description: </b><?=$description?></label><br>
+                    <label><b>Estimate Weight : </b><?=$weight?></label><br>
+                    <label><b>Date Posted : </b><?=$dateposted?></label><br>
+                    
+                    </div>
+                    <div class="col-sm-4">
+                        <img src="img/charity.jpg" style="width:100%; height:100%;">
+                    </div>
+                </div>
+                
+                <?php
+				
+				}
+			?>
+			<br>
+          
 
-			<!-- Start fact Area -->
-			<section class="facts-area section-gap" id="facts-area">
-				<div class="container">				
-					<div class="row">
-						<div class="col-lg-3 col-md-6 single-fact">
-							<h1 class="counter">450</h1>
-							<p>Projects Completed</p>
-						</div>
-						<div class="col-lg-3 col-md-6 single-fact">
-							<h1 class="counter">8270</h1>
-							<p>Red-cross members</p>
-						</div>
-						<div class="col-lg-3 col-md-6 single-fact">
-							<h1 class="counter">320</h1>
-							<p>Bood drive events</p>
-						</div>	
-						<div class="col-lg-3 col-md-6 single-fact">
-							<h1 class="counter">150</h1>
-							<p>partners & supporters</p>
-						</div>												
+			<form class="form-group" action="received.php"  method="post" style="width:98%;" >
+			<?php include('errors.php');?>
+				<input name="emid" value="<?=$emid?>" style="opacity: 0.2;" readonly/>
+				<div class="form-group">	
+					<div class="col-xs-6">
+						<label for="em_tImage"><h4>Add some brief remarks</h4></label>
+						<textarea type="text" class="form-control" name="feedback" id="remarks" required></textarea>
 					</div>
-				</div>	
-			</section>
-			<!-- end fact Area -->						
+				</div>
+				
+				<div class="form-group">
+					<div class="col-xs-12">
+						<br>
+						<button class="btn btn-lg btn-success" style="width:100%;" type="submit" name="donationfeedback"><i class="glyphicon glyphicon-ok-sign"></i>Mark as recieved</button>
+					</div>
+				</div>
+					
+			</form>
 
+
+
+		</div>
+	</div>
+	<br>
+	</section>
+
+	<section class="quote-area"  id="pending">
+      <div class="container" style="padding: 6px 12px; border: 1px solid #ccc;">
+        <div class="row justify-content-center text-left section-title-wrap"></div>
+          <div class="col-lg-12">
+            <!-- <p>MAAJABU</p> -->
+          </div>
+          
+        </div>
+      </div>
+    </div>     
+  </div>
+</section>
+<br> 
+	
+
+		    
             <!-- start footer Area -->
             <footer class="footer-area section-gap">
                 <div class="container">
@@ -210,7 +217,7 @@ if (isset($_GET['logout'])) {
                     </div>
                 </div>
             </footer>
-            <!-- End footer Area -->	
+            <!-- End footer Area -->		
 
 			<script src="js/vendor/jquery-2.2.4.min.js"></script>
 			<script src="js/popper.min.js"></script>

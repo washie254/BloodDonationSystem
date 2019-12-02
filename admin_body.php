@@ -56,7 +56,9 @@ if (isset($_GET['logout'])) {
 			        <ul class="nav-menu">
 			          <li><a href="admin_index.php">Admin Home</a></li>
 			          <li><a href="admin_cases.php"> Emergencies</a></li>
+                      <li><a href="admin_donations.php">Donations</a></li>
                       <li><a href="admin_body.php">Blood Banks</a></li>
+                      <li><a href="admin_reports.php">Reports</a></li>
 					  <li> <a href="index.php?logout='1'" style="color: red;">logout</a> </li>
 					  <li><img src="img/user2.png" style="width:30px;height:30px;" alt="" title="" /><strong><?php echo $_SESSION['username']; ?></strong></li>
 			        </ul>
